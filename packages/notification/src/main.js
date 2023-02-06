@@ -33,7 +33,7 @@ const Notification = function(options) {
   document.body.appendChild(instance.$el);
   instance.visible = true;
   instance.dom = instance.$el;
-  instance.dom.style.zIndex = PopupManager.nextZIndex();
+  instance.dom.style.zIndex = 100000 - instance.$ELEMENT.zIndex + PopupManager.nextZIndex();
 
   let verticalOffset = options.offset || 0;
   instances.filter(item => item.position === position).forEach(item => {

@@ -39,7 +39,7 @@ const Message = function(options) {
   });
   instance.verticalOffset = verticalOffset;
   instance.visible = true;
-  instance.$el.style.zIndex = PopupManager.nextZIndex();
+  instance.$el.style.zIndex = 100000 - instance.$ELEMENT.zIndex + PopupManager.nextZIndex();
   instances.push(instance);
   return instance;
 };
