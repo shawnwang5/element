@@ -8,6 +8,9 @@
       role="dialog"
       aria-modal="true"
       :aria-label="title || 'dialog'">
+      <div
+        class="custom-modal"
+      ></div>
       <div class="el-message-box" :class="[customClass, center && 'el-message-box--center']">
         <div class="el-message-box__header" v-if="title !== null">
           <div class="el-message-box__title">
@@ -100,7 +103,7 @@
 
     props: {
       modal: {
-        default: true
+        default: false
       },
       lockScroll: {
         default: true
@@ -252,7 +255,22 @@
       },
 
       visible(val) {
+        let $customModal = null;
+        if (this.$el.previousSibling.classList.contains('custom-modal')) {
+          $customModal = this.$el.previousSibling;
+        }
+        const toogleCustomModal = (isShow) => {
+          if (!$customModal) {
+            return
+          }
+          if (isShow) {
+            $customModal.style.display = 'block';
+          } else {
+            $customModal.style.display = 'none';
+          }
+        }
         if (val) {
+          toogleCustomModal(true);
           this.uid++;
           if (this.$type === 'alert' || this.$type === 'confirm') {
             this.$nextTick(() => {
@@ -261,17 +279,21 @@
           }
           this.focusAfterClosed = document.activeElement;
           messageBox = new Dialog(this.$el, this.focusAfterClosed, this.getFirstFocus());
+        } else {
+          toogleCustomModal(false);
         }
 
         // prompt
         if (this.$type !== 'prompt') return;
         if (val) {
+          toogleCustomModal(true);
           setTimeout(() => {
             if (this.$refs.input && this.$refs.input.$el) {
               this.getInputElement().focus();
             }
           }, 500);
         } else {
+          toogleCustomModal(false);
           this.editorErrorMessage = '';
           removeClass(this.getInputElement(), 'invalid');
         }
@@ -330,3 +352,15 @@
     }
   };
 </script>
+
+<style scoped>
+.custom-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  background: #000;
+}
+</style>

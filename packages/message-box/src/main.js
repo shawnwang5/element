@@ -75,10 +75,24 @@ const initInstance = () => {
   instance.callback = defaultCallback;
 };
 
-const showNextMsg = () => {
-  if (!instance) {
-    initInstance();
+const getTargetDom = () => {
+  let $pageWrapper = document.querySelector(
+    '.layout > article > .page-wrapper > .page'
+  );
+  // 优先挂在page上，找不到就挂在km-list-page
+  if (!$pageWrapper) {
+    $pageWrapper = document.querySelector(
+      '.layout > article > .page-wrapper > .km-list-page'
+    );
   }
+  return $pageWrapper || document.body;
+};
+
+const showNextMsg = () => {
+  // if (!instance) {
+  //   initInstance();
+  // }
+  initInstance();
   instance.action = '';
 
   if (!instance.visible || instance.closeTimer) {
@@ -111,7 +125,7 @@ const showNextMsg = () => {
           instance[prop] = true;
         }
       });
-      document.body.appendChild(instance.$el);
+      getTargetDom().appendChild(instance.$el);
 
       Vue.nextTick(() => {
         instance.visible = true;

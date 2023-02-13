@@ -124,6 +124,12 @@ export default {
       if (zIndex) {
         PopupManager.zIndex = zIndex;
       }
+      const $customModal = this.$el.querySelector('.custom-modal');
+      if ($customModal) {
+        const iZIndex = zIndex || PopupManager.zIndex;
+        $customModal.style.zIndex = iZIndex - 1;
+        this.$el.parentNode.insertBefore($customModal, this.$el);
+      }
 
       if (modal) {
         if (this._closing) {
