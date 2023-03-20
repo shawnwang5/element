@@ -33,6 +33,7 @@ const Notification = function(options) {
   document.body.appendChild(instance.$el);
   instance.visible = true;
   instance.dom = instance.$el;
+  // 在对话框是非全屏状态时，就需要ui组件的 z-index 大于页头和多页签
   instance.dom.style.zIndex = 100000 - instance.$ELEMENT.zIndex + PopupManager.nextZIndex();
 
   let verticalOffset = options.offset || 0;

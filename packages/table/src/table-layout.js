@@ -47,7 +47,8 @@ class TableLayout {
     if (this.table.$el && bodyWrapper) {
       const body = bodyWrapper.querySelector('.el-table__body');
       const prevScrollY = this.scrollY;
-      const scrollY = body.offsetHeight > this.bodyHeight;
+      // 如果存在横向滚动条、body.offsetHeight === this.bodyHeight 时，如果不显示竖向滚动条，就会导致内容显示不全
+      const scrollY = this.scrollX ? body.offsetHeight >= this.bodyHeight : body.offsetHeight > this.bodyHeight;
       this.scrollY = scrollY;
       return prevScrollY !== scrollY;
     }

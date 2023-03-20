@@ -39,6 +39,7 @@ const Message = function(options) {
   });
   instance.verticalOffset = verticalOffset;
   instance.visible = true;
+  // 在对话框是非全屏状态时，就需要ui组件的 z-index 大于页头和多页签
   instance.$el.style.zIndex = 100000 - instance.$ELEMENT.zIndex + PopupManager.nextZIndex();
   instances.push(instance);
   return instance;
